@@ -10,19 +10,19 @@ def main():
     SKY_BLUE = '#00a6ff'
     PASTEL_DARK_GREEN = '#386c5f'
     # sg.theme_background_color(())
-    category = ['GAME', 'PRIORITY', 'SPAM']
+    category = ['GENERAL', 'PRIORITY', 'BANKING', 'SHOPPING', 'GAME', 'SPAM', 'MISC']
     user_type = ['EMAIL', 'USERNAME']
     password_length = [8, 9, 10, 11, 12, 13, 14, 15, 16]
     output = sg.Multiline(write_only=False, disabled=True, key='gen_pass', no_scrollbar=True)
 
-    cat_combo = sg.Combo(category, default_value='PICK ONE',key='categories', readonly=True)
+    cat_combo = sg.Combo(category, default_value='PICK ONE', size = (12, 1), key='categories', readonly=True)
 
     ent_usertype = sg.Text('Enter username: ', visible=False, font=('Helvetica', 14))
     usertype_box = sg.InputText(visible=False, key='userlogin')
 
     title_input = sg.InputText(key='title')
     
-    user_type_dropdown = sg.Combo(user_type, enable_events=True, default_value='PICK ONE',key='users_type', readonly=True)
+    user_type_dropdown = sg.Combo(user_type, enable_events=True, default_value='PICK ONE', size = (12, 1), key='users_type', readonly=True)
     #for the folder path
     base_folder = str(os.path.expanduser('~\Documents'))
     def_fol_path = sg.InputText(default_text=base_folder, disabled=False, key='folder_path')
