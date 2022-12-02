@@ -48,6 +48,8 @@ def main():
                 [title_input],
                 [sg.Text(f'Length of password:', font=('Helvetica', 14))],
                 [sg.Combo(password_length, default_value=12, key='length')],
+                [sg.Text(f'Parameters:', font=('Helvetica', 14))],
+                [sg.Checkbox('Capital letters'), sg.Checkbox('Symbols'), sg.Checkbox('Numbers')],
                 [sg.Text('Generated Password:',font=('Helvetica', 14)), cb_pass_txt],
                 [output],
                 [sg.Button('GENERATE', font=('Helvetica', 12)), sg.Button('SAVE', font=('Helvetica', 12), button_color=PASTEL_DARK_GREEN), sg.Push(), sg.Button('CLEAR', font=('Helvetica', 12), button_color=SKY_BLUE), sg.Button('EXIT', font=('Helvetica',  12), button_color=PASTEL_RED)]]
