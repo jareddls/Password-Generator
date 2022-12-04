@@ -33,7 +33,7 @@ def main():
     upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     numbers = '0123456789'
     symbols = '!@#$%^&*().'
-    available_characters = lower + upper + numbers + symbols
+    available_characters = lower# + upper + numbers + symbols
 
     # key returns a dict
     layout =    [[sg.Text('Folder Path:',font=('Helvetica', 14))],
@@ -49,7 +49,7 @@ def main():
                 [sg.Text(f'Length of password:', font=('Helvetica', 14))],
                 [sg.Combo(password_length, default_value=12, key='length')],
                 [sg.Text(f'Parameters:', font=('Helvetica', 14))],
-                [sg.Checkbox('Capital letters'), sg.Checkbox('Symbols'), sg.Checkbox('Numbers')],
+                [sg.Checkbox('Capital letters', key='capitals'), sg.Checkbox('Symbols', key='symbols'), sg.Checkbox('Numbers', key='numbers')],
                 [sg.Text('Generated Password:',font=('Helvetica', 14)), cb_pass_txt],
                 [output],
                 [sg.Button('GENERATE', font=('Helvetica', 12)), sg.Button('SAVE', font=('Helvetica', 12), button_color=PASTEL_DARK_GREEN), sg.Push(), sg.Button('CLEAR', font=('Helvetica', 12), button_color=SKY_BLUE), sg.Button('EXIT', font=('Helvetica',  12), button_color=PASTEL_RED)]]
@@ -61,6 +61,9 @@ def main():
     # Create an event loop
     while True:
         event, values = window.read()
+
+        # reset to just lower
+        available_characters = lower
 
         if event == 'EXIT' or event == sg.WIN_CLOSED:
             break
@@ -79,6 +82,15 @@ def main():
                 values['users_type'] != 'PICK ONE' and 
                 values['title'] != '' and
                 values['userlogin'] != ''):
+
+                # checks if checkbox is marked, if so, add to pool of available characters
+                if values['capitals'] == True:
+                    available_characters += upper
+                if values['symbols'] == True:
+                    available_characters += symbols
+                if values['numbers'] == True:
+                    available_characters += numbers
+                
                 password = ''.join(ran.sample(available_characters, values['length']))
                 output.update(password)
                 cb_pass = password
