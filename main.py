@@ -33,7 +33,9 @@ def main():
     upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     numbers = '0123456789'
     symbols = '!@#$%^&*().'
-    available_characters = lower# + upper + numbers + symbols
+    consonants = 'BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz'
+    vowels = 'aeiouAEIOU'
+    available_characters = ''
 
     # key returns a dict
     layout =    [[sg.Text('Folder Path:',font=('Helvetica', 14))],
@@ -49,7 +51,7 @@ def main():
                 [sg.Text(f'Length of password:', font=('Helvetica', 14))],
                 [sg.Combo(password_length, default_value=12, key='length')],
                 [sg.Text(f'Parameters:', font=('Helvetica', 14))],
-                [sg.Checkbox('Capital letters', key='capitals'), sg.Checkbox('Symbols', key='symbols'), sg.Checkbox('Numbers', key='numbers')],
+                [sg.Checkbox('Readable word', key='readable'), sg.Checkbox('Symbols', key='symbols'), sg.Checkbox('Numbers', key='numbers')],
                 [sg.Text('Generated Password:',font=('Helvetica', 14)), cb_pass_txt],
                 [output],
                 [sg.Button('GENERATE', font=('Helvetica', 12)), sg.Button('SAVE', font=('Helvetica', 12), button_color=PASTEL_DARK_GREEN), sg.Push(), sg.Button('CLEAR', font=('Helvetica', 12), button_color=SKY_BLUE), sg.Button('EXIT', font=('Helvetica',  12), button_color=PASTEL_RED)]]
@@ -83,15 +85,32 @@ def main():
                 values['title'] != '' and
                 values['userlogin'] != ''):
 
+                password = ''
                 # checks if checkbox is marked, if so, add to pool of available characters
-                if values['capitals'] == True:
-                    available_characters += upper
-                if values['symbols'] == True:
-                    available_characters += symbols
-                if values['numbers'] == True:
-                    available_characters += numbers
-                
-                password = ''.join(ran.sample(available_characters, values['length']))
+                if values['readable'] == True:
+                    print("TRUE")
+                    password = ''
+                    for i in range(values['length']):
+                        if i % 2 == 0:
+                            password += ran.choice(consonants)
+                            # print(f'{i}: {password}')
+                        else:
+                            password += ran.choice(vowels)
+                            # print(f'{i}: {password}')
+                    password = ''.join(password)
+                elif values['symbols'] == True:
+                    available_characters = symbols
+                    password = ''
+                    password = ''.join(ran.choice(available_characters) for i in range(values['length']))
+                elif values['numbers'] == True:
+                    available_characters = numbers
+                    password = ''
+                    password = ''.join(ran.choice(available_characters) for i in range(values['length']))
+                else:
+                    available_characters = upper + lower + numbers + symbols
+                    password = ''
+                    password = ''.join(ran.choice(available_characters) for i in range(values['length']))
+
                 output.update(password)
                 cb_pass = password
             else:
